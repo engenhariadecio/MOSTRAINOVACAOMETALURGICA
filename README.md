@@ -32,9 +32,9 @@ Se o arquivo novo vier do gerador de instruções, ele não terá o botão *Volt
 
 ## No celular
 
-- **Planta:** 1 dedo gira a vista, pinça com 2 dedos dá zoom e girar os 2 dedos roda a vista. Arrastar os 2 dedos juntos move a planta. Toque duas vezes para aproximar. Os botões + e − fazem zoom, e o botão de enquadrar volta para a fábrica toda. As opções extras ficam em **Mais opções** e a legenda abre por cima da planta.
-- **Instruções:** o modelo 3D aparece primeiro e as informações vêm logo abaixo. Os dados da IP ficam recolhidos em **Dados da IP**. O botão no canto do modelo abre o 3D em tela cheia.
-- Funciona em pé e deitado.
+- **Planta:** a tela fica livre para o modelo. Embaixo tem as áreas (Fábrica toda, Pré-banho, Banho, Pintura, ETE) e o botão **Menu**, que abre as opções e a legenda numa folha que sobe de baixo. As setas do canto esquerdo movem a planta, e os botões **+**, **−** e o de enquadrar (lado direito) dão zoom e voltam para a fábrica toda. Nos gestos: 1 dedo gira, a pinça dá zoom e 2 dedos movem.
+- **Instruções:** o cabeçalho grande fica escondido; para ver revisão, datas e aprovações, toque em **Dados da IP** no topo. O 3D ocupa quase a tela toda e as informações vêm abaixo. O botão no canto do 3D abre em tela cheia.
+- No celular, sombras e resolução extra do 3D são desligadas para não travar.
 
 ## Observações
 

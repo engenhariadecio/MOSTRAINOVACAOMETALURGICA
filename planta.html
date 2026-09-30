@@ -73,74 +73,92 @@
   html,body{touch-action:none; overscroll-behavior:none;}
   .title{display:flex; align-items:center; gap:10px;}
   .mtl-voltar{display:inline-flex; align-items:center; gap:5px; flex:none;
-    font:600 12.5px "Archivo","Segoe UI",sans-serif; color:#fff; text-decoration:none;
-    padding:8px 12px 8px 7px; border-radius:8px; touch-action:manipulation;
+    font:600 13px "Archivo","Segoe UI",sans-serif; color:#fff; text-decoration:none;
+    padding:9px 12px 9px 7px; border-radius:9px; touch-action:manipulation; -webkit-tap-highlight-color:transparent;
     background:linear-gradient(100deg,#26b247 0%,#1f6076 60%,#1b4984 100%);}
   .mtl-voltar:hover{filter:brightness(1.1);}
   .mtl-voltar:focus-visible{outline:2px solid var(--verde); outline-offset:2px;}
   .mtl-voltar svg{width:16px; height:16px;}
-  .controls button,.zoom button{touch-action:manipulation; -webkit-tap-highlight-color:transparent;}
-  .opts{display:contents;}
+  .controls button,.zoom button,.pad button{touch-action:manipulation; -webkit-tap-highlight-color:transparent;}
   .so-celular{display:none !important;}
-  #btnOpts[aria-expanded="true"]{background:var(--azul); border-color:var(--azul); color:#fff;}
-  .zoom{right:14px; top:50%; transform:translateY(-50%); display:flex; flex-direction:column; gap:8px;}
-  .zoom button{width:48px; height:48px; border-radius:12px; display:grid; place-items:center; cursor:pointer;
-    color:var(--ink); background:rgba(23,28,34,.86); border:1px solid var(--line); backdrop-filter:blur(6px);}
-  .zoom button:active{background:var(--azul); border-color:var(--azul);}
+  .opts{display:flex; flex-wrap:wrap; gap:8px; align-self:flex-start;}
+  .opts-head{display:none;}
+  #btnMenu{align-items:center; gap:7px; font:600 14px "Archivo",sans-serif; color:var(--ink);
+    background:var(--panel); border:1px solid var(--line); border-radius:10px; padding:10px 13px; cursor:pointer;}
+  #btnMenu svg{width:20px; height:20px;}
+  #btnMenu[aria-expanded="true"]{background:var(--azul); border-color:var(--azul); color:#fff;}
+  .zoom{right:10px; top:50%; transform:translateY(-50%); display:flex; flex-direction:column; gap:8px;}
+  .zoom button,.pad button{width:46px; height:46px; border-radius:12px; display:grid; place-items:center; cursor:pointer;
+    color:var(--ink); background:rgba(23,28,34,.88); border:1px solid var(--line);}
+  .zoom button:active,.pad button:active{background:var(--azul); border-color:var(--azul); color:#fff;}
   .zoom svg{width:22px; height:22px;}
+  .pad{left:10px; display:grid; gap:5px;
+    grid-template-areas:". up ." "lf . rt" ". dn ."; grid-template-columns:repeat(3,42px); grid-template-rows:repeat(3,42px);}
+  .pad button{width:42px; height:42px;}
+  .pad svg{width:20px; height:20px;}
   .hint{transition:opacity .4s;}
   .hint.sai{opacity:0; pointer-events:none;}
+  .scrim{display:none; position:fixed; inset:0; z-index:8; background:rgba(0,0,0,.45);}
+  .scrim.open{display:block;}
 
-  /* ---------- Celular (em pé e deitado) ---------- */
+  /* ---------- Celular ---------- */
   @media (max-width:760px), (orientation:landscape) and (max-height:520px){
     .so-celular{display:flex !important;}
+    .zoom.so-celular,.pad.so-celular{display:grid !important;}
     .zoom.so-celular{display:flex !important;}
-    .title{left:calc(10px + env(safe-area-inset-left,0px)); right:calc(10px + env(safe-area-inset-right,0px));
-      top:calc(10px + env(safe-area-inset-top,0px)); max-width:none; padding:6px 10px 6px 6px;}
-    .title h1{font-size:12.5px; overflow:hidden; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical;}
-    .controls{left:0; right:0; bottom:0; max-width:none !important; gap:8px;
-      padding:10px calc(10px + env(safe-area-inset-right,0px)) calc(10px + env(safe-area-inset-bottom,0px)) calc(10px + env(safe-area-inset-left,0px));
-      background:rgba(23,28,34,.94); border-top:1px solid var(--line); backdrop-filter:blur(8px);}
-    .controls button{font-size:14px; padding:11px 14px; border-radius:10px;}
-    .views{align-self:stretch; flex-wrap:nowrap !important; overflow-x:auto; touch-action:pan-x;
-      scrollbar-width:none; -webkit-overflow-scrolling:touch;}
+    .title,.controls,.opts,.legend,.zoom button,.pad button{backdrop-filter:none !important; -webkit-backdrop-filter:none !important;}
+    .title{left:calc(8px + env(safe-area-inset-left,0px)); top:calc(8px + env(safe-area-inset-top,0px));
+      right:auto; max-width:calc(100vw - 16px); padding:4px; background:transparent; border:none;}
+    .title h1{display:none;}
+    .controls{left:0; right:0; bottom:0; max-width:none !important; flex-direction:row; align-items:center; gap:8px;
+      padding:8px calc(10px + env(safe-area-inset-right,0px)) calc(8px + env(safe-area-inset-bottom,0px)) calc(10px + env(safe-area-inset-left,0px));
+      background:rgba(23,28,34,.96); border-top:1px solid var(--line); z-index:10;}
+    .controls button{font-size:14px; padding:10px 13px; border-radius:10px;}
+    .views{flex:1 1 auto; min-width:0; align-self:auto; flex-wrap:nowrap !important; overflow-x:auto; touch-action:pan-x;
+      scrollbar-width:none; -webkit-overflow-scrolling:touch; border:none; background:transparent; padding:0;}
     .views::-webkit-scrollbar{display:none;}
     .views span{display:none;}
-    .views button{flex:none;}
-    .toggles{flex-wrap:nowrap !important;}
-    .toggles > button{flex:1 1 0; padding:11px 6px; white-space:nowrap;}
-    .opts{display:none; position:fixed; z-index:6;
-      left:calc(10px + env(safe-area-inset-left,0px)); right:calc(10px + env(safe-area-inset-right,0px));
-      bottom:calc(var(--ctrl-h, 130px) + 8px); max-height:calc(100vh - var(--ctrl-h, 130px) - 90px); overflow:auto;
-      touch-action:pan-y; grid-template-columns:1fr 1fr; gap:8px; padding:12px;
-      background:rgba(23,28,34,.96); border:1px solid var(--line); border-radius:14px; backdrop-filter:blur(8px);}
+    .views button{flex:none; background:var(--panel); border:1px solid var(--line);}
+    .views button[aria-pressed="true"]{background:var(--azul); border-color:var(--azul);}
+    /* menu em folha que sobe de baixo */
+    .opts{display:none; position:fixed; z-index:9; left:0; right:0; bottom:0; top:auto;
+      max-height:calc(100svh - 70px); overflow:auto; touch-action:pan-y;
+      grid-template-columns:1fr 1fr; gap:9px; align-content:start;
+      padding:12px calc(14px + env(safe-area-inset-right,0px)) calc(14px + env(safe-area-inset-bottom,0px)) calc(14px + env(safe-area-inset-left,0px));
+      background:#1d242c; border:1px solid var(--line); border-bottom:none; border-radius:18px 18px 0 0;
+      box-shadow:0 -12px 40px rgba(0,0,0,.5);}
     .opts.open{display:grid;}
-    .opts button{padding:12px 8px;}
-    .legend{left:calc(10px + env(safe-area-inset-left,0px)); right:calc(10px + env(safe-area-inset-right,0px)); width:auto;
-      top:auto !important; bottom:calc(var(--ctrl-h, 130px) + 8px);
-      max-height:calc(100vh - var(--ctrl-h, 130px) - 90px) !important; overflow:auto; touch-action:pan-y;
-      background:rgba(23,28,34,.96); border-radius:14px;}
-    .legend ul{display:grid; grid-template-columns:1fr 1fr; column-gap:12px;}
-    .legend li{font-size:12px; align-items:flex-start;}
-    .legend li .sw{margin-top:1px;}
-    .zoom{right:calc(10px + env(safe-area-inset-right,0px)); top:calc(50% - var(--ctrl-h, 130px)/2 + 20px);}
+    .opts button{padding:13px 8px;}
+    .opts-head{grid-column:1/-1; display:flex; align-items:center; justify-content:space-between; padding-bottom:2px;}
+    .opts-head strong{font-size:15px;}
+    .opts-head button{width:42px; height:42px; border-radius:10px; padding:0 !important; display:grid; place-items:center;
+      background:var(--panel); border:1px solid var(--line); color:var(--ink); cursor:pointer;}
+    .opts-head svg{width:20px; height:20px;}
+    /* legenda entra dentro do menu */
+    .opts .legend{position:static !important; grid-column:1/-1; width:auto; max-height:none !important;
+      background:rgba(255,255,255,.04); border-radius:12px; margin-top:2px;}
+    .opts .legend ul{display:grid; grid-template-columns:1fr 1fr; column-gap:12px;}
+    .opts .legend li{font-size:12px; align-items:flex-start;}
+    .opts .legend li .sw{margin-top:1px;}
+    #btnLegend{display:none !important;}
+    .zoom{right:calc(8px + env(safe-area-inset-right,0px)); top:auto; transform:none;
+      bottom:calc(var(--ctrl-h, 64px) + 12px);}
+    .pad{left:calc(8px + env(safe-area-inset-left,0px)); bottom:calc(var(--ctrl-h, 64px) + 12px);}
     .hint{display:block !important; left:50%; right:auto; transform:translateX(-50%);
-      top:calc(62px + env(safe-area-inset-top,0px)); bottom:auto; white-space:nowrap;
+      top:calc(12px + env(safe-area-inset-top,0px)); bottom:auto; white-space:nowrap;
       font-size:13px; color:#fff; background:rgba(0,0,0,.72); border:none; border-radius:999px; padding:8px 14px; pointer-events:none;}
   }
-  /* celular deitado: controles numa faixa mais baixa */
+  @media (max-width:760px) and (orientation:portrait){
+    .hint{top:calc(58px + env(safe-area-inset-top,0px));}
+  }
+  /* celular deitado */
   @media (orientation:landscape) and (max-height:520px){
-    .title{right:auto; max-width:min(60vw, 520px);}
-    .title h1{-webkit-line-clamp:1;}
-    .controls{flex-direction:row; align-items:center; padding-top:6px; padding-bottom:calc(6px + env(safe-area-inset-bottom,0px));}
-    .controls button{font-size:13px; padding:9px 11px;}
-    .views{flex:1 1 auto; min-width:0;}
-    .toggles{flex:none;}
-    .toggles > button{flex:none; padding:9px 11px;}
-    .opts,.legend{left:auto; width:min(380px, 70vw);}
-    .zoom{top:calc(50% - var(--ctrl-h, 60px)/2 + 10px); gap:6px;}
-    .zoom button{width:42px; height:42px;}
-    .hint{top:calc(54px + env(safe-area-inset-top,0px));}
+    .opts{left:auto; right:0; top:0; bottom:0; max-height:none; width:min(360px, 60vw); border-radius:18px 0 0 18px; border-bottom:1px solid var(--line);}
+    .zoom{flex-direction:column; bottom:auto; top:50%; transform:translateY(-50%); right:calc(8px + env(safe-area-inset-right,0px));}
+    .pad{bottom:calc(var(--ctrl-h, 56px) + 10px);}
+    .controls{padding-top:6px; padding-bottom:calc(6px + env(safe-area-inset-bottom,0px));}
+    .controls button{font-size:13px; padding:8px 11px;}
+    .hint{top:calc(10px + env(safe-area-inset-top,0px)); left:auto; right:calc(70px + env(safe-area-inset-right,0px)); transform:none;}
   }
 </style>
 </head>
@@ -148,7 +166,7 @@
 <canvas id="c" aria-label="Modelo 3D da produção: pré-banho, banho e linha de pintura"></canvas>
 
 <div class="hud title">
-  <a class="mtl-voltar" href="index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>Voltar ao menu</a>
+  <a class="mtl-voltar" href="index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>Voltar</a>
   <h1>Vista interativa Pré-banho, Banho e Pintura</h1>
 </div>
 
@@ -191,22 +209,21 @@
     <button data-view="pintura" aria-pressed="false">Pintura</button>
     <button data-view="ete" aria-pressed="false">ETE</button>
   </div>
-  <div class="row toggles">
+  <button id="btnMenu" class="so-celular" aria-expanded="false" aria-controls="opts"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg><span>Menu</span></button>
+  <div class="opts" id="opts">
+    <div class="opts-head so-celular"><strong>Opções da planta</strong><button id="btnFechar" type="button" aria-label="Fechar o menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
     <button id="btnTop" aria-pressed="false">Vista de topo</button>
     <button id="btnLegend" aria-pressed="true" aria-controls="legend">Legenda</button>
-    <button id="btnOpts" class="so-celular" aria-expanded="false" aria-controls="opts">Mais opções</button>
-    <div class="opts" id="opts">
-      <button id="btnLabels" aria-pressed="true">Rótulos</button>
-      <button id="btnZones" aria-pressed="true">Áreas</button>
-      <button id="btnFlow" aria-pressed="true">Fluxo</button>
-      <button id="btnStock" aria-pressed="true">Estoque</button>
-      <button id="btnWalls" aria-pressed="true">Paredes</button>
-      <button id="btnParts" aria-pressed="true">Peças na monovia</button>
-      <button id="btnHoist" aria-pressed="true">Talha em movimento</button>
-      <button id="btnRoof" aria-pressed="true">Teto do forno</button>
-      <button id="btnEteRoof" aria-pressed="true">Cobertura ETE</button>
-      <button id="btnSpin" aria-pressed="false">Girar</button>
-    </div>
+    <button id="btnLabels" aria-pressed="true">Rótulos</button>
+    <button id="btnZones" aria-pressed="true">Áreas</button>
+    <button id="btnFlow" aria-pressed="true">Fluxo</button>
+    <button id="btnStock" aria-pressed="true">Estoque</button>
+    <button id="btnWalls" aria-pressed="true">Paredes</button>
+    <button id="btnParts" aria-pressed="true">Peças na monovia</button>
+    <button id="btnHoist" aria-pressed="true">Talha em movimento</button>
+    <button id="btnRoof" aria-pressed="true">Teto do forno</button>
+    <button id="btnEteRoof" aria-pressed="true">Cobertura ETE</button>
+    <button id="btnSpin" aria-pressed="false">Girar</button>
   </div>
 </div>
 <div class="hud zoom so-celular" role="group" aria-label="Zoom">
@@ -214,6 +231,13 @@
   <button id="zOut" type="button" aria-label="Afastar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14"/></svg></button>
   <button id="zHome" type="button" aria-label="Ver a fábrica toda"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button>
 </div>
+<div class="hud pad so-celular" role="group" aria-label="Mover a planta">
+  <button data-mx="0" data-my="-1" aria-label="Mover para cima" style="grid-area:up"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 15l7-7 7 7"/></svg></button>
+  <button data-mx="-1" data-my="0" aria-label="Mover para a esquerda" style="grid-area:lf"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+  <button data-mx="1" data-my="0" aria-label="Mover para a direita" style="grid-area:rt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+  <button data-mx="0" data-my="1" aria-label="Mover para baixo" style="grid-area:dn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 9l7 7 7-7"/></svg></button>
+</div>
+<div class="scrim" id="scrim"></div>
 <div class="hud hint">Arraste: orbitar · Roda: zoom · Botão direito: mover</div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -224,9 +248,10 @@ if(!window.THREE){ document.querySelector(".title h1").textContent = "Não foi p
 
 /* ============ Cena ============ */
 const canvas = document.getElementById("c");
-const renderer = new THREE.WebGLRenderer({canvas, antialias:true});
-renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
-renderer.shadowMap.enabled = true;
+const MTL_CEL = window.matchMedia('(max-width:820px), (pointer:coarse) and (max-height:600px)').matches;
+const renderer = new THREE.WebGLRenderer({canvas, antialias:!MTL_CEL, powerPreference:'high-performance'});
+renderer.setPixelRatio(MTL_CEL?1:Math.min(window.devicePixelRatio,2));
+renderer.shadowMap.enabled = !MTL_CEL;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
 const scene = new THREE.Scene();
@@ -2148,9 +2173,19 @@ canvas.addEventListener("wheel", function(e){
   dist = Math.min(200, Math.max(6, dist * (e.deltaY>0 ? 1.08 : 0.925)));
   applyCamera();
 }, {passive:false});
+/* botões de zoom e de mover */
 document.getElementById("zIn").addEventListener("click", function(){ zoomTo(dist*0.7); });
 document.getElementById("zOut").addEventListener("click", function(){ zoomTo(dist/0.7); });
 document.getElementById("zHome").addEventListener("click", function(){ goTo("geral"); });
+document.querySelectorAll(".pad button").forEach(function(b){
+  const mx = +b.dataset.mx, my = +b.dataset.my;
+  let raf = null;
+  function step(){ panBy(mx*7, my*7); raf = requestAnimationFrame(step); }
+  b.addEventListener("pointerdown", function(e){ e.preventDefault(); tween = null; clearViewSel(); if(!raf) step(); });
+  ["pointerup","pointerleave","pointercancel"].forEach(function(t){
+    b.addEventListener(t, function(){ if(raf){ cancelAnimationFrame(raf); raf = null; } });
+  });
+});
 document.querySelectorAll(".views button").forEach(function(b){
   b.addEventListener("click", function(){ goTo(b.dataset.view); });
 });
@@ -2165,7 +2200,6 @@ function toggle(btn, fn){
 }
 const legendEl = document.getElementById("legend"), btnLegend = document.getElementById("btnLegend");
 const mqCel = window.matchMedia("(max-width:760px), (orientation:landscape) and (max-height:520px)");
-if(mqCel.matches){ legendEl.hidden = true; btnLegend.setAttribute("aria-pressed", "false"); }
 toggle(btnLegend, function(on){ legendEl.hidden = !on; });
 toggle(document.getElementById("btnLabels"), function(on){ labelGroup.visible = on; });
 toggle(document.getElementById("btnTop"), function(on){ topView = on; applyCamera(); });
@@ -2182,25 +2216,28 @@ const btnHoist = document.getElementById("btnHoist");
 btnHoist.setAttribute("aria-pressed", hoistOn);
 toggle(btnHoist, function(on){ hoistOn = on; });
 
-/* ---- Painéis do celular ---- */
-const optsEl = document.getElementById("opts"), btnOpts = document.getElementById("btnOpts");
-const ctrlEl = document.querySelector(".controls"), hintEl = document.querySelector(".hint");
-function setOpts(open){ optsEl.classList.toggle("open", open); btnOpts.setAttribute("aria-expanded", open); }
-function hideLegend(){ legendEl.hidden = true; btnLegend.setAttribute("aria-pressed", "false"); }
-btnOpts.addEventListener("click", function(){
-  const open = !optsEl.classList.contains("open");
-  setOpts(open); if(open && mqCel.matches) hideLegend();
-});
-btnLegend.addEventListener("click", function(){ if(!legendEl.hidden && mqCel.matches) setOpts(false); });
+/* ---- Menu do celular ---- */
+const optsEl = document.getElementById("opts"), btnMenu = document.getElementById("btnMenu");
+const scrimEl = document.getElementById("scrim"), ctrlEl = document.querySelector(".controls"), hintEl = document.querySelector(".hint");
+function setMenu(open){
+  optsEl.classList.toggle("open", open);
+  scrimEl.classList.toggle("open", open);
+  btnMenu.setAttribute("aria-expanded", open);
+}
+btnMenu.addEventListener("click", function(){ setMenu(!optsEl.classList.contains("open")); });
+document.getElementById("btnFechar").addEventListener("click", function(){ setMenu(false); });
+scrimEl.addEventListener("click", function(){ setMenu(false); });
+if(mqCel.matches){ optsEl.appendChild(legendEl); legendEl.hidden = false; }
 function syncCtrlH(){ document.documentElement.style.setProperty("--ctrl-h", ctrlEl.offsetHeight + "px"); }
 syncCtrlH();
 if(window.ResizeObserver) new ResizeObserver(syncCtrlH).observe(ctrlEl);
 window.addEventListener("resize", syncCtrlH);
-if(window.matchMedia("(pointer:coarse)").matches) hintEl.textContent = "1 dedo gira. Pinça dá zoom. 2 dedos movem.";
+if(window.matchMedia("(pointer:coarse)").matches) hintEl.textContent = "1 dedo gira · pinça dá zoom · setas movem";
 let hintOff = false;
 function hideHint(){ if(!hintOff && mqCel.matches){ hintOff = true; hintEl.classList.add("sai"); } }
 setTimeout(hideHint, 7000);
-window.__mtlOnTouch = function(){ hideHint(); if(mqCel.matches) setOpts(false); };
+window.__mtlOnTouch = function(){ hideHint(); if(mqCel.matches) setMenu(false); };
+document.querySelectorAll(".views button").forEach(function(b){ b.addEventListener("click", function(){ if(mqCel.matches) setMenu(false); }); });
 window.addEventListener("orientationchange", function(){ setTimeout(function(){ resize(); syncCtrlH(); }, 300); });
 
 /* ============ Loop ============ */
