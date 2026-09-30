@@ -30,6 +30,12 @@ Se o arquivo novo vier do gerador de instruções, ele não terá o botão *Volt
 <a href="index.html" style="position:fixed;top:10px;left:10px;z-index:100000;background:#1f7a52;color:#fff;padding:10px 14px;border-radius:8px;font:600 14px sans-serif;text-decoration:none">‹ Voltar ao menu</a>
 ```
 
+## No celular
+
+- **Planta:** 1 dedo gira a vista, pinça com 2 dedos dá zoom e girar os 2 dedos roda a vista. Arrastar os 2 dedos juntos move a planta. Toque duas vezes para aproximar. Os botões + e − fazem zoom, e o botão de enquadrar volta para a fábrica toda. As opções extras ficam em **Mais opções** e a legenda abre por cima da planta.
+- **Instruções:** o modelo 3D aparece primeiro e as informações vêm logo abaixo. Os dados da IP ficam recolhidos em **Dados da IP**. O botão no canto do modelo abre o 3D em tela cheia.
+- Funciona em pé e deitado.
+
 ## Observações
 
 - As páginas precisam de internet no celular: o motor 3D (three.js) é carregado de um CDN.

@@ -38,41 +38,93 @@ canvas{display:block;width:100%!important;height:100%!important}
 @media print{.ipHeader{background:#fff;border-bottom:2px solid #000}.ipHeader h1,.ipFullName,.hf span{color:#000}.hf strong,.ipBreak{color:#333}}
 
 
-/* ===== Barra "Voltar ao menu" (Metalúrgica) ===== */
+/* ===================== Metalúrgica: navegação e celular ===================== */
 .mtl-voltar{flex-shrink:0;display:flex;align-items:center;justify-content:space-between;gap:12px;
   padding:0 12px;min-height:44px;background:linear-gradient(100deg,#26b247 0%,#1e8a55 35%,#1f6076 70%,#1b4984 100%);
   font-family:"Segoe UI",Roboto,Arial,sans-serif;position:relative;z-index:100000}
 .mtl-voltar a{display:inline-flex;align-items:center;gap:6px;color:#fff;text-decoration:none;font-weight:600;
-  font-size:14px;padding:8px 12px 8px 6px;border-radius:8px;background:rgba(255,255,255,.14);line-height:1}
-.mtl-voltar a:hover{background:rgba(255,255,255,.24)}
+  font-size:14px;padding:9px 13px 9px 7px;border-radius:9px;background:rgba(255,255,255,.16);line-height:1}
+.mtl-voltar a:hover{background:rgba(255,255,255,.26)}
 .mtl-voltar a:focus-visible{outline:2px solid #fff;outline-offset:2px}
 .mtl-voltar svg{width:18px;height:18px;flex:none}
-.mtl-voltar span{color:rgba(255,255,255,.85);font-size:13px;font-weight:500}
-@media print{.mtl-voltar{display:none!important}}
+.mtl-voltar span{color:rgba(255,255,255,.88);font-size:13px;font-weight:500}
+.mtl-dados,.mtl-fs,.mtl-toque{display:none}
+@media print{.mtl-voltar,.mtl-dados,.mtl-fs,.mtl-toque{display:none!important}}
 
-/* ===== Layout para celular (Metalúrgica) ===== */
-@media (max-width: 820px){
+/* botões comuns (celular) */
+.mtl-dados{align-items:center;justify-content:space-between;gap:8px;width:100%;
+  font:600 13px "Segoe UI",Roboto,Arial,sans-serif;color:inherit;background:rgba(128,128,128,.12);
+  border:1px solid rgba(128,128,128,.35);border-radius:9px;padding:9px 12px;cursor:pointer;touch-action:manipulation}
+.mtl-dados svg{width:16px;height:16px;transition:transform .2s}
+.ipHeader.mtl-open .mtl-dados svg{transform:rotate(180deg)}
+.mtl-fs{position:absolute;top:10px;right:10px;z-index:30;width:44px;height:44px;border-radius:12px;border:1px solid rgba(255,255,255,.25);
+  background:rgba(0,0,0,.55);color:#fff;align-items:center;justify-content:center;cursor:pointer;touch-action:manipulation;
+  -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+.mtl-fs svg{width:22px;height:22px}
+.mtl-toque{position:absolute;left:50%;bottom:14px;transform:translateX(-50%);z-index:30;pointer-events:none;
+  background:rgba(0,0,0,.68);color:#fff;font:500 13px "Segoe UI",Roboto,Arial,sans-serif;line-height:1.35;text-align:center;
+  padding:8px 14px;border-radius:999px;white-space:nowrap;transition:opacity .4s}
+.mtl-toque.mtl-sai{opacity:0}
+
+/* tela cheia do modelo 3D */
+body.mtl-full{overflow:hidden!important}
+body.mtl-full #mv{position:fixed!important;left:0!important;top:0!important;right:0!important;bottom:0!important;
+  width:auto!important;height:auto!important;min-height:0!important;z-index:100001!important}
+body.mtl-full .mtl-fs{top:calc(10px + env(safe-area-inset-top,0px));right:calc(10px + env(safe-area-inset-right,0px))}
+
+/* ---------- Celular em pé ---------- */
+@media (max-width: 820px) and (orientation: portrait), (max-width: 560px){
+  html,body{touch-action:manipulation}
   body{height:auto!important;min-height:100vh;overflow-x:hidden!important;overflow-y:auto!important;
         display:flex!important;flex-direction:column!important;padding-bottom:env(safe-area-inset-bottom,0px)}
-  .mtl-voltar{position:sticky;top:0;padding-top:env(safe-area-inset-top,0px);min-height:calc(48px + env(safe-area-inset-top,0px))}
-  .ipHeader{flex-direction:column!important;align-items:stretch!important;gap:10px!important;padding:10px 14px!important;order:1}
-  .ipHeader h1{font-size:1.05rem!important}
-  .ipFields{grid-template-columns:repeat(2,minmax(0,1fr))!important;border-left:none!important;padding-left:0!important;
-           border-top:1px solid var(--mtl-bdr,rgba(128,128,128,.3));padding-top:8px!important;gap:6px 14px!important}
-  .ipFields .hf strong{font-size:.62rem!important}
-  .ipFields .hf span{font-size:.8rem!important}
+  .mtl-voltar{position:sticky;top:0;padding-top:env(safe-area-inset-top,0px);min-height:calc(50px + env(safe-area-inset-top,0px))}
+  .ipHeader{display:flex!important;flex-direction:column!important;align-items:stretch!important;gap:10px!important;padding:10px 12px 12px!important;order:1}
+  .ipHeadLeft{gap:10px!important;align-items:center!important}
+  .ipHeadLogo{height:40px!important;padding:4px 6px!important}
+  .ipHeadLogo img{max-width:96px!important}
+  .ipHeader h1{font-size:1rem!important;line-height:1.2}
+  .mtl-dados{display:flex}
+  .ipFields{display:none!important}
+  .ipHeader.mtl-open .ipFields{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;border-left:none!important;
+     padding-left:0!important;gap:8px 14px!important}
+  .ipFields .hf strong{font-size:.64rem!important}
+  .ipFields .hf span{font-size:.85rem!important}
   .ipMain{display:contents!important}
-  #mv{order:2;flex:none!important;width:100%!important;height:58vh!important;height:58svh!important;min-height:300px;position:relative}
+  #mv{order:2;flex:none!important;width:100%!important;height:66vh!important;height:66svh!important;min-height:320px;position:relative}
   .sb{order:3;width:100%!important;flex:none!important;overflow:visible!important;border-right:none!important;box-shadow:none!important;height:auto!important}
+  .mtl-fs,.mtl-toque{display:flex}
+  .mtl-toque{display:block}
+  .tm{width:44px!important;height:44px!important;font-size:1.1rem!important;right:14px!important;
+        bottom:calc(14px + env(safe-area-inset-bottom,0px))!important;z-index:9999!important}
   
   .sb .sc{overflow:visible!important;padding:14px 14px 90px!important}
-  .sb .fi{font-size:.92rem!important;padding:4px 0!important;gap:10px}
+  .sb .fi{font-size:.95rem!important;padding:6px 0!important;gap:12px}
   .sb .fi span{text-align:right}
-  .sb .bt{font-size:.74rem!important}
+  .sb .bt{font-size:.76rem!important;margin-top:4px}
   .sb .ttl{font-size:.95rem!important}
-  .sb .foot{padding-bottom:90px}
+  .sb .tot{padding:10px 12px!important}
   #mv .hint{display:none}
+}
 
+/* ---------- Celular deitado ---------- */
+@media (orientation: landscape) and (max-height: 520px){
+  body{height:100vh!important;height:100svh!important}
+  .mtl-voltar{min-height:40px;padding-left:calc(12px + env(safe-area-inset-left,0px))}
+  .mtl-voltar a{padding:7px 11px 7px 6px}
+  .ipHeader{flex-wrap:wrap!important;padding:6px 12px!important;gap:6px 12px!important;padding-left:calc(12px + env(safe-area-inset-left,0px))!important}
+  .ipHeadLogo{height:32px!important;padding:3px 5px!important}
+  .ipHeadLogo img{max-width:80px!important}
+  .ipHeader h1{font-size:.85rem!important}
+  .mtl-dados{display:flex;width:auto}
+  .ipFields{display:none!important}
+  .ipHeader.mtl-open .ipFields{display:grid!important;flex-basis:100%;border-left:none!important;padding-left:0!important}
+  .sb{width:260px!important;padding-left:env(safe-area-inset-left,0px)}
+  .mtl-fs{display:flex}
+  .mtl-toque{display:block}
+  .tm{width:40px!important;height:40px!important;font-size:1rem!important;bottom:10px!important;right:10px!important}
+  
+  .sb .fi{font-size:.8rem!important}
+  #mv .hint{display:none}
 }
 </style>
 <script type="importmap">{"imports":{"three":"https://unpkg.com/three@0.160.0/build/three.module.js","three/addons/":"https://unpkg.com/three@0.160.0/examples/jsm/"}}</script>
@@ -179,4 +231,44 @@ const dist=Math.max(sz.x,sz.y,sz.z)*1.5+800;
 oc.target.copy(ct);cam.position.set(ct.x+dist*.7,ct.y+dist*.5,ct.z+dist);cam.lookAt(ct);oc.update();
 window.addEventListener('resize',()=>{const w=mv.clientWidth,h=mv.clientHeight;cam.aspect=w/h;cam.updateProjectionMatrix();rnd.setSize(w,h);});
 (function loop(){requestAnimationFrame(loop);oc.update();rnd.render(scene,cam);})();
-</script></body></html>
+</script>
+<script>
+/* Metalúrgica: dados da IP recolhíveis, tela cheia e dica de toque */
+(function(){
+  var header=document.querySelector('.ipHeader'), left=document.querySelector('.ipHeadLeft'), viewer=document.querySelector('#mv');
+  var down='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>';
+  if(header && left){
+    var b=document.createElement('button'); b.type='button'; b.className='mtl-dados'; b.setAttribute('aria-expanded','false');
+    b.innerHTML='<span>Dados da IP</span>'+down;
+    left.insertAdjacentElement('afterend', b);
+    b.addEventListener('click', function(){
+      var open=header.classList.toggle('mtl-open'); b.setAttribute('aria-expanded', open);
+      setTimeout(function(){ window.dispatchEvent(new Event('resize')); }, 30);
+    });
+  }
+  if(!viewer) return;
+  var icoOpen='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>';
+  var icoClose='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5"/></svg>';
+  var fs=document.createElement('button'); fs.type='button'; fs.className='mtl-fs';
+  function setFs(on){
+    document.body.classList.toggle('mtl-full', on);
+    fs.innerHTML = on ? icoClose : icoOpen;
+    fs.setAttribute('aria-label', on ? 'Sair da tela cheia' : 'Ver o modelo em tela cheia');
+    fs.title = fs.getAttribute('aria-label');
+    [0,60,250].forEach(function(t){ setTimeout(function(){ window.dispatchEvent(new Event('resize')); }, t); });
+  }
+  setFs(false);
+  fs.addEventListener('click', function(){ setFs(!document.body.classList.contains('mtl-full')); });
+  document.addEventListener('keydown', function(e){ if(e.key==='Escape' && document.body.classList.contains('mtl-full')) setFs(false); });
+  viewer.appendChild(fs);
+  var tip=document.createElement('div'); tip.className='mtl-toque';
+  tip.textContent='1 dedo gira. 2 dedos dão zoom e movem.';
+  viewer.appendChild(tip);
+  function hideTip(){ tip.classList.add('mtl-sai'); }
+  viewer.addEventListener('pointerdown', hideTip, {once:true});
+  setTimeout(hideTip, 7000);
+  /* ajusta o 3D quando o celular gira */
+  window.addEventListener('orientationchange', function(){ setTimeout(function(){ window.dispatchEvent(new Event('resize')); }, 300); });
+})();
+</script>
+</body></html>
