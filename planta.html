@@ -211,7 +211,7 @@
   </div>
   <button id="btnMenu" class="so-celular" aria-expanded="false" aria-controls="opts"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg><span>Menu</span></button>
   <div class="opts" id="opts">
-    <div class="opts-head so-celular"><strong>Opções da planta <small style="font-weight:400;color:var(--ink-dim)">versão 4</small></strong><button id="btnFechar" type="button" aria-label="Fechar o menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+    <div class="opts-head so-celular"><strong>Opções da planta <small style="font-weight:400;color:var(--ink-dim)">versão 5</small></strong><button id="btnFechar" type="button" aria-label="Fechar o menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
     <button id="btnTop" aria-pressed="false">Vista de topo</button>
     <button id="btnLegend" aria-pressed="true" aria-controls="legend">Legenda</button>
     <button id="btnLabels" aria-pressed="true">Rótulos</button>
@@ -2180,7 +2180,7 @@ document.getElementById("zHome").addEventListener("click", function(){ goTo("ger
 document.querySelectorAll(".pad button").forEach(function(b){
   const mx = +b.dataset.mx, my = +b.dataset.my;
   let raf = null;
-  function step(){ panBy(-mx*7, my*7); raf = requestAnimationFrame(step); }
+  function step(){ panBy(-mx*7, -my*7); raf = requestAnimationFrame(step); }
   b.addEventListener("pointerdown", function(e){ e.preventDefault(); tween = null; clearViewSel(); if(!raf) step(); });
   ["pointerup","pointerleave","pointercancel"].forEach(function(t){
     b.addEventListener(t, function(){ if(raf){ cancelAnimationFrame(raf); raf = null; } });
