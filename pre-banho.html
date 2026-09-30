@@ -254,6 +254,7 @@ body.mtl-full .mtl-fs{top:calc(10px + env(safe-area-inset-top,0px));right:calc(1
         const camera = new THREE.PerspectiveCamera(45, container.clientWidth/container.clientHeight, 10, 50000);
         camera.position.set(2000, 1500, 2000);
         const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
         renderer.setSize(container.clientWidth, container.clientHeight);
         renderer.shadowMap.enabled = !window.matchMedia('(max-width:820px)').matches;
         renderer.shadowMap.type = THREE.PCFSoftShadowMap;

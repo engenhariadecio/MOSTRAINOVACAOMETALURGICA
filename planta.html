@@ -250,7 +250,7 @@ if(!window.THREE){ document.querySelector(".title h1").textContent = "Não foi p
 const canvas = document.getElementById("c");
 const MTL_CEL = window.matchMedia('(max-width:820px), (pointer:coarse) and (max-height:600px)').matches;
 const renderer = new THREE.WebGLRenderer({canvas, antialias:!MTL_CEL, powerPreference:'high-performance'});
-renderer.setPixelRatio(MTL_CEL?1:Math.min(window.devicePixelRatio,2));
+renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
 renderer.shadowMap.enabled = !MTL_CEL;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
@@ -2180,7 +2180,7 @@ document.getElementById("zHome").addEventListener("click", function(){ goTo("ger
 document.querySelectorAll(".pad button").forEach(function(b){
   const mx = +b.dataset.mx, my = +b.dataset.my;
   let raf = null;
-  function step(){ panBy(mx*7, my*7); raf = requestAnimationFrame(step); }
+  function step(){ panBy(-mx*7, -my*7); raf = requestAnimationFrame(step); }
   b.addEventListener("pointerdown", function(e){ e.preventDefault(); tween = null; clearViewSel(); if(!raf) step(); });
   ["pointerup","pointerleave","pointercancel"].forEach(function(t){
     b.addEventListener(t, function(){ if(raf){ cancelAnimationFrame(raf); raf = null; } });
