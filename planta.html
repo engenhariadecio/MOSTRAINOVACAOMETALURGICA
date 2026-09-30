@@ -211,7 +211,7 @@
   </div>
   <button id="btnMenu" class="so-celular" aria-expanded="false" aria-controls="opts"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg><span>Menu</span></button>
   <div class="opts" id="opts">
-    <div class="opts-head so-celular"><strong>Opções da planta <small style="font-weight:400;color:var(--ink-dim)">versão 5</small></strong><button id="btnFechar" type="button" aria-label="Fechar o menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+    <div class="opts-head so-celular"><strong>Opções da planta <small style="font-weight:400;color:var(--ink-dim)">versão 6</small></strong><button id="btnFechar" type="button" aria-label="Fechar o menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
     <button id="btnTop" aria-pressed="false">Vista de topo</button>
     <button id="btnLegend" aria-pressed="true" aria-controls="legend">Legenda</button>
     <button id="btnLabels" aria-pressed="true">Rótulos</button>
@@ -225,17 +225,6 @@
     <button id="btnEteRoof" aria-pressed="true">Cobertura ETE</button>
     <button id="btnSpin" aria-pressed="false">Girar</button>
   </div>
-</div>
-<div class="hud zoom so-celular" role="group" aria-label="Zoom">
-  <button id="zIn" type="button" aria-label="Aproximar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
-  <button id="zOut" type="button" aria-label="Afastar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14"/></svg></button>
-  <button id="zHome" type="button" aria-label="Ver a fábrica toda"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button>
-</div>
-<div class="hud pad so-celular" role="group" aria-label="Mover a planta">
-  <button data-mx="0" data-my="-1" aria-label="Mover para cima" style="grid-area:up"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 15l7-7 7 7"/></svg></button>
-  <button data-mx="-1" data-my="0" aria-label="Mover para a esquerda" style="grid-area:lf"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
-  <button data-mx="1" data-my="0" aria-label="Mover para a direita" style="grid-area:rt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
-  <button data-mx="0" data-my="1" aria-label="Mover para baixo" style="grid-area:dn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 9l7 7 7-7"/></svg></button>
 </div>
 <div class="scrim" id="scrim"></div>
 <div class="hud hint">Arraste: orbitar · Roda: zoom · Botão direito: mover</div>
@@ -2173,19 +2162,7 @@ canvas.addEventListener("wheel", function(e){
   dist = Math.min(200, Math.max(6, dist * (e.deltaY>0 ? 1.08 : 0.925)));
   applyCamera();
 }, {passive:false});
-/* botões de zoom e de mover */
-document.getElementById("zIn").addEventListener("click", function(){ zoomTo(dist*0.7); });
-document.getElementById("zOut").addEventListener("click", function(){ zoomTo(dist/0.7); });
-document.getElementById("zHome").addEventListener("click", function(){ goTo("geral"); });
-document.querySelectorAll(".pad button").forEach(function(b){
-  const mx = +b.dataset.mx, my = +b.dataset.my;
-  let raf = null;
-  function step(){ panBy(-mx*7, -my*7); raf = requestAnimationFrame(step); }
-  b.addEventListener("pointerdown", function(e){ e.preventDefault(); tween = null; clearViewSel(); if(!raf) step(); });
-  ["pointerup","pointerleave","pointercancel"].forEach(function(t){
-    b.addEventListener(t, function(){ if(raf){ cancelAnimationFrame(raf); raf = null; } });
-  });
-});
+
 document.querySelectorAll(".views button").forEach(function(b){
   b.addEventListener("click", function(){ goTo(b.dataset.view); });
 });
@@ -2232,7 +2209,7 @@ function syncCtrlH(){ document.documentElement.style.setProperty("--ctrl-h", ctr
 syncCtrlH();
 if(window.ResizeObserver) new ResizeObserver(syncCtrlH).observe(ctrlEl);
 window.addEventListener("resize", syncCtrlH);
-if(window.matchMedia("(pointer:coarse)").matches) hintEl.textContent = "1 dedo gira · pinça dá zoom · setas movem";
+if(window.matchMedia("(pointer:coarse)").matches) hintEl.textContent = "1 dedo gira · pinça dá zoom · 2 dedos movem";
 let hintOff = false;
 function hideHint(){ if(!hintOff && mqCel.matches){ hintOff = true; hintEl.classList.add("sai"); } }
 setTimeout(hideHint, 7000);
